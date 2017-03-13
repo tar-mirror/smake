@@ -1,0 +1,71 @@
+NEW features of smake-1.2.2:
+
+-	Many updated in the schily makefile system and many new
+	supported architectures.
+	
+	This includes gnu-kfreebsd, 64 bit Mac OS X, Pyros
+
+-	$(CC_COM) is now available for all architectures
+
+-	The makefile system now supports cross compiling with
+	automated remote execution of test binaries.
+
+-	The makefile system now supports Android
+
+-	See announcement files at ftp://ftp.berlios.de/pub/schily/
+	for more informations and full details on the extensions
+	in the schily makefile system.
+
+-	README.compile received a major enhancement
+
+-	New files smake/job.c and smake/job.h in preparation of future
+	parallel make enhancements
+
+-	A new option -W gives extra warnings
+
+-	An internal uname() implementation for a compilation on Win-DOS 
+	was added
+
+-	Smake -help now outputs help for -S
+
+-	Smake now correctly implements the '+' command line prefix even
+	when it has been called with -t (touch).
+
+-	Smake now links against $(LIB_INTL)
+
+-	A dynamic version of libschily now also links against $(LIB_INTL)
+
+-	Better file PATH search allows smake to better find it's
+	internal .../lib/defaults.smk file wthat contains the
+	default rules (see libschily/searchinpath.c)
+
+-	New function getexecpath() in libschily to implement a
+	feature similar to getexecname() from SunOS.
+
+-	New function get_progpath() in libschily allows to print command
+	name via comerr*() even when save_args() was not called.
+	
+
+TODO:
+	Smake would need to implement an undocumented feature from 
+	historical UNIX make implementations that is used by Xorg
+	at one place:
+
+	target: *.o
+		do-something-with *.o
+
+	Which expands *.o from the filesystem. Meanwhile, use 
+	smake -N to compile Xorg.
+
+After pattern expansion has been implemented, smake-1.2 final
+will be released.
+
+P.P.S.: As Xorg changed it's build system, we may delay this
+feature to something past 1.2-final.
+	
+
+
+WARNING: Do not use 'winzip' to extract the tar file!
+	Winzip cannot extract symbolic links correctly.
+
+Joerg

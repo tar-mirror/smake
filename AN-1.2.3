@@ -1,0 +1,96 @@
+NEW features of smake-1.2.3:
+
+-	smake now optimizes command execution and no longer passes simple
+	commands to the shell. On UNIX, this speeds up execution by just
+	one percent, but on slow systems like Win32, this results in a
+	bigger performance win (aprox. 25% of the total wall clock time
+	on a Cygwin system).
+
+-	Commands that start with a simple "echo" command have the echo
+	command executed inline by smake. This helps to avoid to call the
+	shell for typical commands in the schily makefilesystem.
+
+-	Added a symlink to libschily/stdio/flush.c to get flush() for "echo"
+	into the bootstrap "psmake".
+
+-	If the remaining commandline does not contain shell meta characters,
+	the command is called via execlp() instead of the shell.
+
+-	If the remaining commandline does not contain a command, fake
+	success, but do not try to call the empty commandline.
+
+-	If the environment FORCE_SHELL is present or the Makefile contains
+	the special target .FORCE_SHELL:, smake always calls commands via
+	the shell.
+
+-	Try to work around an imprudent change in the file windef.h from
+	Cygwin-1.7.17 (Autumn 2012) related to the type BOOL that makes 
+	windefs.h from the recent Cygwin no longer compatible to the 
+	original file from Microsoft.
+
+	Thanks to Alain Hoang, Thomas Plank and others for reporting and
+	help with getting a fix for the problem named above
+
+
+-	The make program specific configuration files for the Schily Makefilesystem
+	RULES/mk-.id (for SunPro make), RULES/mk-smake.id RULES/mk-gmake.id
+	now include definitions for the macros:
+
+	SPACE		A single space character (' ')
+	NUMBER_SIGN	The ASCII number sing ('#')
+
+	Note that the POSIX standard otherwise requires the make program 
+	to be unable to have the '#' appear in non-comment sections of
+	Makefiles.
+
+-	The Schily makefilesystem now supports CC++_COM for all platforms to
+	allow to overwrite the low level command for the C++-compiler.
+
+-	The smake program now may be compiled to enforce "bosh" (our portable
+	Bourne Shell) as the default SHELL. Note that you need the Bourne Shell
+	sources that are part of the "schily" project collection:
+
+	ftp://ftp.berlios.de/pub/schily/
+
+	Using "bosh" fixes some bugs with signal handling on bash based systems
+	and increases performace e.g. on Cygwin.
+
+	compile using "smake COPTX=-DUSE_BOSH" to enable this feature.
+	Note that you need to have a working bosh installed on your system
+	before "configure" was run. So if you like to swith to that
+	new feature, first compile/install all programs from this source
+	bundle, then call "./.clean" and compile again.
+
+-	If you have a working (recent) bosh on your system, you may call:
+
+	PATH="/opt/schily/bin:$PATH" CONFIG_SHELL=/opt/schily/bin/sh smake
+
+	to enforce "bosh" instead of /bin/sh for executing "configure"
+	If /bin/sh is e.g. bash, this speeds up the "configure" performance
+	by aprox. 30% on Cygwin.
+
+
+
+TODO:
+	Smake would need to implement an undocumented feature from 
+	historical UNIX make implementations that is used by Xorg
+	at one place:
+
+	target: *.o
+		do-something-with *.o
+
+	Which expands *.o from the filesystem. Meanwhile, use 
+	smake -N to compile Xorg.
+
+After pattern expansion has been implemented, smake-1.2 final
+will be released.
+
+P.P.S.: As Xorg changed it's build system, we may delay this
+feature to something past 1.2-final.
+	
+
+
+WARNING: Do not use 'winzip' to extract the tar file!
+	Winzip cannot extract symbolic links correctly.
+
+Joerg
